@@ -152,6 +152,8 @@ public class GPSStateModule extends ReactContextBaseJavaModule implements Activi
 	@ReactMethod
 	public void _requestAuthorization(){
 		ActivityCompat.requestPermissions(getCurrentActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_AUTHORIZATION);
+		
+		waitForPermissionBecomeGranted();
 	}
 	
 	
