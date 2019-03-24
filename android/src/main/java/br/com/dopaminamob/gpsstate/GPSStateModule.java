@@ -8,20 +8,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.PermissionChecker;
-import android.widget.Toast;
 
-import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -31,7 +23,6 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,9 +142,13 @@ public class GPSStateModule extends ReactContextBaseJavaModule implements Activi
 	
 	@ReactMethod
 	public void _requestAuthorization(){
-		ActivityCompat.requestPermissions(getCurrentActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_AUTHORIZATION);
-		
-		waitForPermissionBecomeGranted();
+		Activity currentActivity = getCurrentActivity();
+		if (currentActivity != null) {
+			ActivityCompat.requestPermissions(currentActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_AUTHORIZATION);
+			waitForPermissionBecomeGranted();
+		} else {
+			sendEvent(STATUS_DENIED);
+		}
 	}
 	
 	
