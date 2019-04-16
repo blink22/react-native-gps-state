@@ -187,7 +187,7 @@ public class GPSStateModule extends ReactContextBaseJavaModule implements Activi
     }
 
     boolean isGpsEnabled(){
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 	
 	
